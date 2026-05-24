@@ -109,15 +109,5 @@ python3 -m http.server 3000
 * **CDN-ready Local Run Compatibility**: The frontend uses `Tailwind CSS Play CDN` injected cleanly inside the HTML header. This resolves offline CSS formatting rules instantly, rendering a beautiful responsive interface locally on Windows out of the box with zero compilation or build hassles!
 * Navigate to **`http://localhost:3000`** in your browser to interact with the catalog.
 
----
-
-## 📝 Pre-Flight GitHub Upload Checklist
-
-Before pushing this directory layout to a personal repository or professional portfolio on GitHub:
-
-1. **Verify Ignored Variables**: The backend references a `.env` configuration template. Verify that `.gitignore` prevents physical database secrets or local ports from being committed.
-2. **Keep the Structure Decoupled**: When building upon this skeleton, maintain the pure isolation layers. Keep API mutations separated from layout elements.
-
----
 
 *Compiled as an executive architectural template for modern full-stack web engineering portfolios.*
