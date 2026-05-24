@@ -1,0 +1,6 @@
+{
+  "name": "Full-Stack GraphQL Cookbook",
+  "description": "An interactive portfolio workbench showing a Clean Code, enterprise-grade full-stack GraphQL architecture with isolated layers, live sandbox, and structured tutorials.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

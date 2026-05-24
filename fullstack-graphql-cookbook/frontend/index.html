@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Developer Portfolio: GraphQL Cookbook Boilerplate</title>
+  <!-- Tailwind CSS Play CDN for instant, zero-config local runs on any browser/OS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+
+  <header class="bg-indigo-900 text-white py-12 px-6">
+    <div class="max-w-6xl mx-auto">
+      <span class="text-indigo-200 text-xs font-bold uppercase tracking-widest bg-indigo-800/80 px-3 py-1 rounded-full border border-indigo-700">PORTFOLIO DEMO</span>
+      <h1 class="text-4xl font-extrabold tracking-tight mt-3 mb-2">GraphQL Cookbook Sandbox</h1>
+      <p class="text-indigo-100 text-lg max-w-2xl">A clean, decoupled architecture showing the Separation of Concerns between Front-End Client, Central Operations, Domain-services, and GraphQL resolvers.</p>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-6 py-10 grid grid-cols-1 lg:grid-cols-12 gap-8">
+    
+    <!-- Left form component for adding recipe -->
+    <section class="lg:col-span-4 bg-white p-6 rounded-xl border border-slate-200 h-fit">
+      <h2 class="text-xl font-bold text-slate-900 mb-2">Add New Recipe</h2>
+      <p class="text-slate-500 text-xs mb-6 leading-relaxed">Insert values to test the live mutation. This demonstrates client-to-resolver input sanitization pipelines.</p>
+
+      <!-- Alert banners for operational failure feedback -->
+      <div id="global-error-banner" class="hidden bg-rose-50 border border-rose-100 text-rose-700 text-xs px-4 py-3 rounded-lg mb-5 font-medium leading-relaxed"></div>
+
+      <form id="add-recipe-form" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-slate-400 mb-1 uppercase tracking-wider">Recipe Title *</label>
+          <input type="text" name="title" required placeholder="e.g. JWT Auth Injection" class="w-full px-3 py-2 text-sm border border-slate-200 rounded-md focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-hidden">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-400 mb-1 uppercase tracking-wider">Category *</label>
+          <input type="text" name="category" required placeholder="Queries, Mutations, Caching..." class="w-full px-3 py-2 text-sm border border-slate-200 rounded-md focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-hidden">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-400 mb-1 uppercase tracking-wider">Difficulty *</label>
+          <select name="difficulty" class="w-full px-3 py-2 text-sm border border-slate-200 rounded-md focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-hidden">
+            <option value="Easy">Easy</option>
+            <option value="Medium" selected>Medium</option>
+            <option value="Hard">Hard</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-400 mb-1 uppercase tracking-wider">Brief Description</label>
+          <textarea name="description" rows="3" placeholder="Explain the structural capabilities..." class="w-full px-3 py-2 text-sm border border-slate-200 rounded-md focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-hidden"></textarea>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-400 mb-1 uppercase tracking-wider">Ingredients (Comma Separated)</label>
+          <input type="text" name="ingredients" placeholder="Apollo, Auth, Header API" class="w-full px-3 py-2 text-sm border border-slate-200 rounded-md focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-hidden">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-400 mb-1 uppercase tracking-wider">Execution Steps (One Per Line)</label>
+          <textarea name="steps" rows="3" placeholder="Step 1: Extract header info&#10;Step 2: Authenticate payload keys" class="w-full px-3 py-2 text-sm border border-slate-200 rounded-md focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-hidden"></textarea>
+        </div>
+
+        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 px-4 rounded-md text-xs uppercase tracking-widest transition-all cursor-pointer">
+          Add Recipe
+        </button>
+      </form>
+    </section>
+
+    <!-- Right list displaying elements from database -->
+    <section class="lg:col-span-8 flex flex-col gap-6">
+      
+      <!-- Top operational status bar -->
+      <div class="flex items-center justify-between border-b border-slate-200 pb-4">
+        <div>
+          <h2 class="text-2xl font-bold text-slate-900">Recipe Catalog</h2>
+          <p class="text-slate-500 text-sm">Data loaded dynamically using client/graphqlClient.js</p>
+        </div>
+        
+        <!-- Live spinner indicator -->
+        <div id="loading-loader" class="hidden flex items-center gap-2 text-indigo-600 font-medium text-xs bg-indigo-50 border border-indigo-150 px-3 py-1.5 rounded-md">
+          <svg class="animate-spin h-4 w-4 text-indigo-600" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+          </svg>
+          Synergizing Server State...
+        </div>
+      </div>
+
+      <!-- Main responsive list grids target -->
+      <div id="items-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Rendered dynamically by dom/uiHandler.js -->
+      </div>
+
+      <!-- Empty status placeholder layout -->
+      <div id="empty-list-indicator" class="hidden bg-slate-100/50 rounded-xl border border-dashed border-slate-200 py-16 px-6 text-center">
+        <h3 class="text-slate-700 font-bold mb-1">Kitchen Pantry is Empty</h3>
+        <p class="text-slate-400 text-sm max-w-md mx-auto mb-4">No recipes are registered in the mock service catalog yet. Enter parameters on the sidebar form to populate.</p>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="bg-slate-900 text-slate-400 py-8 px-6 text-center text-xs mt-16 border-t border-slate-800">
+    <div class="max-w-6xl mx-auto">
+      <p class="mb-1">&copy; 2026 Developer Portfolio System. Clean Code Architecture Sample.</p>
+      <p class="text-slate-500">Decoupled layers can easily scale from prototype mock states to PostgreSQL/Apollo systems without logic churn.</p>
+    </div>
+  </footer>
+
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>
